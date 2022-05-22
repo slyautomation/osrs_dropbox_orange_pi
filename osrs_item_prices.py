@@ -4,10 +4,11 @@ import json
 import pandas as pd
 import webbrowser
 import numpy as np
+import os
 from datetime import datetime
 
 # datetime object containing current date and time
-from pandas.io.json import json_normalize
+from pandas import json_normalize
 
 now = datetime.now()
 
@@ -30,7 +31,11 @@ pd.set_option('display.max_rows', None)
 # value display length is 100, the default is 50
 pd.set_option('max_colwidth', 200)
 
-
+def ensure_dir():
+    directory = os.path.dirname('csv')
+    print(directory)
+    if not os.path.exists('csv')
+        os.makedirs('csv')
 
 
 def call_http_prices():
@@ -40,7 +45,7 @@ def call_http_prices():
     }
     response = requests.get("https://prices.runescape.wiki/api/v1/osrs/1h", headers=headers)
     stats = json.loads(response.text)
-    print(stats)
+    #print(stats)
     return stats
 
 # average over 12 hour window get data each hour over a week
@@ -50,7 +55,7 @@ jsonData = call_http_prices()
 data = pd.DataFrame(jsonData)
 data['item_id'] = data.index
 data['index_id'] = np.arange(len(data))
-print('first data:', data)
+#print('first data:', data)
 test = data['data']
 
 
@@ -86,10 +91,4 @@ data = format_data.drop(columns='timestamp').fillna(0)
 #addtestdate()
 
 data.to_csv('csv/' + 'raw_data-' + datetime_time + '.csv', index=False)
-html = data.to_html()
-text_file = open("index.html", "w")
-text_file.write(html)
-text_file.close()
-
-url = "index.html"
-webbrowser.open(url, new=new)
+print('data saved to csv - data extracted as @', datetime_time)
