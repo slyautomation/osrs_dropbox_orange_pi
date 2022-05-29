@@ -48,7 +48,7 @@ class TransferData:
 def ensure_dir():
     directory = os.path.dirname('csv')
     print(directory)
-    if not os.path.exists('csv')
+    if not os.path.exists('csv'):
         os.makedirs('csv')
 
 
@@ -108,9 +108,10 @@ data = format_data.drop(columns='timestamp').fillna(0)
 
 data.to_csv('csv/' + 'raw_data-' + datetime_time + '.csv', index=False)
 print('data saved to csv - data extracted as @', datetime_time)
+filename = 'csv/raw_data-' + datetime_time + '.csv'
 file_from = filename
 file_to = '/' + file_from
 # API v2
 db = transferData.upload_file(file_from, file_to)
-account db.users_get_current_account()
+account = db.users_get_current_account()
 print('data saved to dropbox account for:', account.name.given_name, account.name.surname)
